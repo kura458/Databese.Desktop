@@ -1,0 +1,41 @@
+### Register a new user
+POST https://localhost:7213/api/Users/register
+Content-Type: application/json
+
+{
+    "username": "student01",
+    "password": "Student@123"
+}
+### Login existing user
+POST https://localhost:7213/api/Users/login
+Content-Type: application/json
+
+{
+    "username": "student01",
+    "password": "Student@123"
+}
+### Login with incorrect password
+POST https://localhost:7213/api/Users/login
+Content-Type: application/json
+
+{
+    "username": "student01",
+    "password": "WrongPassword123"
+}
+### Change Password
+POST https://localhost:7213/api/Users/change-password
+Content-Type: application/json
+
+{
+    "username": "student01",
+    "oldPassword": "Student@123",
+    "newPassword": "NewStudent@123"
+}
+### Login with new password
+POST https://localhost:7213/api/Users/login
+Content-Type: application/json
+
+{
+    "username": "student01",
+    "password": "NewStudent@123"
+}

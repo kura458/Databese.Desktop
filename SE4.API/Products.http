@@ -1,0 +1,31 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+
+@baseUrl = https://localhost:7213
+
+### CREATE PRODUCT
+POST {{baseUrl}}/api/Products
+Content-Type: application/json
+
+{
+  "productName": "Laptop",
+  "price": 45000,
+  "quantity": 10
+}
+
+### GET ALL PRODUCTS
+GET {{baseUrl}}/api/Products
+
+### UPDATE PRODUCT
+PUT {{baseUrl}}/api/Products/1
+Content-Type: application/json
+
+{
+  "productName": "Laptop",
+  "price": 50000,
+  "quantity": 15
+}
+
+### DELETE PRODUCT
+DELETE {{baseUrl}}/api/Products/1
+### VERIFY DELETION
+GET {{baseUrl}}/api/Products

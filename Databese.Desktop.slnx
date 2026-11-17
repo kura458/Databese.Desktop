@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Databese.Desktop/Databese.Desktop.csproj" />
+  <Project Path="SE4.API/SE4.API.csproj" />
+  <Project Path="SE4.data/SE4.data.csproj" />
+</Solution>

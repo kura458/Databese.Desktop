@@ -1,0 +1,15 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# Build output
+bin/
+obj/
+
+# Visual Studio generated files
+*.cache
+*.log
+
+# Sensitive configuration
+appsettings.Development.json
