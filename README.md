@@ -1,55 +1,51 @@
 # Databese.Desktop – Product Management System
 
-A desktop-based Product Management System developed using **C#**, **Windows Forms (WinForms)**, **ASP.NET Core Web API**, **Entity Framework Core**, and **SQL Server**.
+A Windows desktop product-management application built with **C#**, **Windows Forms**, **ASP.NET Core Web API**, **Entity Framework Core**, and **SQL Server**.
 
-The application allows users to authenticate and manage products through a Windows desktop interface connected to a RESTful Web API.
+The desktop client communicates with a REST API for user authentication and product-management operations.
 
 ## Features
 
-### 1. User Authentication
+### User authentication
 - User registration
 - User login
 - Change password
-- Secure password hashing using ASP.NET Core `IPasswordHasher<User>`
+- Password hashing through ASP.NET Core's `IPasswordHasher<User>`
 
-### 2. Product Management (CRUD)
-- Add new products
-- View all products
-- Update existing products
+### Product management
+- Create products
+- View products
+- Update products
 - Delete products
 - Search products by name or ID
-- Refresh and display all products
+- Refresh the product list
 
-### 3. Database Management
-- SQL Server database integration
+### Data access
+- SQL Server database
 - Entity Framework Core
-- Code-First database migrations
+- Code-first migrations
 
-## Technologies Used
+## Technology stack
 
-| Technology | Purpose |
+| Technology | Role |
 |---|---|
-| C# | Main programming language |
+| C# | Application language |
 | Windows Forms | Desktop user interface |
-| ASP.NET Core Web API | Backend services |
-| Entity Framework Core | Object-relational mapping (ORM) |
-| SQL Server | Database management |
+| ASP.NET Core Web API | Backend API |
+| Entity Framework Core | Object-relational mapping |
+| SQL Server | Relational database |
 | Visual Studio | Development environment |
-| Git and GitHub | Version control and source code hosting |
 
-## Project Structure
+## Solution structure
 
 ```text
 Databese.Desktop/
-│
 ├── Databese.Desktop.slnx
-│
 ├── Databese.Desktop/
-│   ├── Forms
+│   ├── Forms and form designer files
 │   ├── Models/
 │   ├── Services/
 │   └── Program.cs
-│
 ├── SE4.API/
 │   ├── Controllers/
 │   ├── DTOs/
@@ -57,105 +53,82 @@ Databese.Desktop/
 │   ├── Services/
 │   ├── Program.cs
 │   └── appsettings.json
-│
 └── SE4.data/
     ├── Context/
     ├── Entities/
     └── Migrations/
 ```
 
-## API Endpoints
+## API endpoints
 
 ### User API
 
-| Method | Endpoint | Description |
+| Method | Endpoint | Purpose |
 |---|---|---|
-| POST | `/api/Users/register` | Register a new user |
+| POST | `/api/Users/register` | Register a user |
 | POST | `/api/Users/login` | Authenticate a user |
-| POST | `/api/Users/change-password` | Change user password |
+| POST | `/api/Users/change-password` | Change a password |
 
 ### Product API
 
-| Method | Endpoint | Description |
+| Method | Endpoint | Purpose |
 |---|---|---|
 | POST | `/api/Products` | Create a product |
-| GET | `/api/Products` | Get all products |
-| GET | `/api/Products/{id}` | Get product by ID |
+| GET | `/api/Products` | Retrieve all products |
+| GET | `/api/Products/{id}` | Retrieve a product |
 | PUT | `/api/Products/{id}` | Update a product |
 | DELETE | `/api/Products/{id}` | Delete a product |
 
-## Database Configuration
+## Requirements
 
-The application uses SQL Server.
-
-Configure your database connection in:
-
-`SE4.API/appsettings.json`
-
-Example:
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=SE4DB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=true;"
-  }
-}
-```
-
-**Note:** Change the connection string according to your SQL Server installation.
-
-## How to Run the Project
-
-### Requirements
-
-- Windows operating system
+- Windows
 - Visual Studio
-- .NET 10 SDK
+- .NET SDK compatible with the project files
 - SQL Server
 - Git
 
-### Step 1: Clone the Repository
+Check the project files for the exact target framework and package versions before installing dependencies.
+
+## Run locally
+
+### 1. Clone the correct repository
 
 ```bash
-git clone https://github.com/kura458/Event-Driven-Programming-Practice.git
+git clone https://github.com/kura458/Databese.Desktop.git
+cd Databese.Desktop
 ```
 
-### Step 2: Open the Solution
+### 2. Open the solution
 
-Open `Databese.Desktop.slnx` using Visual Studio.
+Open `Databese.Desktop.slnx` in Visual Studio.
 
-### Step 3: Configure the Database
+### 3. Configure SQL Server
 
-Update the SQL Server connection string in `SE4.API/appsettings.json` if necessary.
+Review the connection string configuration for `SE4.API`. Use your own local SQL Server instance and keep machine-specific credentials out of committed source files.
 
-Apply Entity Framework Core migrations to create or update the database.
+### 4. Apply database migrations
 
-### Step 4: Run the API
+Use the Entity Framework Core migrations appropriate to the solution and configured database.
 
-Set `SE4.API` as the startup project and run it.
+### 5. Start the API
 
-The configured API address is:
+Run the `SE4.API` project. The existing project documentation lists `https://localhost:7213/` as the configured API address; verify the actual launch settings in your local environment.
 
-```text
-https://localhost:7213/
-```
+### 6. Start the desktop client
 
-### Step 5: Run the Desktop Application
+Run the `Databese.Desktop` project after the API and database are available.
 
-Run `Databese.Desktop` from Visual Studio.
+## Security notes
 
-Make sure the API is running before using the desktop application.
+- Do not commit real database passwords, API secrets, or production connection strings.
+- Use a local development connection string or environment-specific configuration.
+- Keep password handling on the server side.
 
 ## Author
 
-**Kura Lemma**
+**Kura Lemma**  
+[GitHub: @kura458](https://github.com/kura458)
 
-GitHub: https://github.com/kura458
+---
 
-## Project Purpose
-
-This project demonstrates the development of a layered desktop application with a RESTful backend API and relational database. It applies practical concepts of object-oriented programming, API development, database integration, authentication, and CRUD operations.
-
-## License
-
-This project is available for educational and learning purposes.
+Educational project demonstrating a desktop client, REST API, and relational database working together.
