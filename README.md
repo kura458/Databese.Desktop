@@ -2,7 +2,7 @@
 
 A Windows desktop product-management application built with **C#**, **Windows Forms**, **ASP.NET Core Web API**, **Entity Framework Core**, and **SQL Server**.
 
-The desktop client communicates with a REST API for user authentication and product-management operations.
+The Windows Forms client communicates with the REST API for user authentication and product-management operations.
 
 ## Features
 
@@ -13,10 +13,7 @@ The desktop client communicates with a REST API for user authentication and prod
 - Password hashing through ASP.NET Core's `IPasswordHasher<User>`
 
 ### Product management
-- Create products
-- View products
-- Update products
-- Delete products
+- Create, view, update, and delete products
 - Search products by name or ID
 - Refresh the product list
 
@@ -30,9 +27,10 @@ The desktop client communicates with a REST API for user authentication and prod
 | Technology | Role |
 |---|---|
 | C# | Application language |
+| .NET 10 | Target framework |
 | Windows Forms | Desktop user interface |
 | ASP.NET Core Web API | Backend API |
-| Entity Framework Core | Object-relational mapping |
+| Entity Framework Core 10 | Object-relational mapping |
 | SQL Server | Relational database |
 | Visual Studio | Development environment |
 
@@ -42,17 +40,17 @@ The desktop client communicates with a REST API for user authentication and prod
 Databese.Desktop/
 ├── Databese.Desktop.slnx
 ├── Databese.Desktop/
-│   ├── Forms and form designer files
+│   ├── Forms and designer files
 │   ├── Models/
-│   ├── Services/
+│   ├── Services/ApiClient.cs
 │   └── Program.cs
 ├── SE4.API/
 │   ├── Controllers/
 │   ├── DTOs/
 │   ├── Interfaces/
 │   ├── Services/
-│   ├── Program.cs
-│   └── appsettings.json
+│   ├── Properties/launchSettings.json
+│   └── Program.cs
 └── SE4.data/
     ├── Context/
     ├── Entities/
@@ -82,47 +80,74 @@ Databese.Desktop/
 ## Requirements
 
 - Windows
-- Visual Studio
-- .NET SDK compatible with the project files
-- SQL Server
+- .NET 10 SDK
+- Visual Studio with the .NET desktop development workload
+- SQL Server instance
 - Git
-
-Check the project files for the exact target framework and package versions before installing dependencies.
 
 ## Run locally
 
-### 1. Clone the correct repository
+### 1. Clone and open the solution
 
-```bash
+```cmd
 git clone https://github.com/kura458/Databese.Desktop.git
 cd Databese.Desktop
 ```
 
-### 2. Open the solution
+Open `Databese.Desktop.slnx` in Visual Studio, or use the .NET CLI from this directory.
 
-Open `Databese.Desktop.slnx` in Visual Studio.
+### 2. Configure SQL Server
 
-### 3. Configure SQL Server
+The API reads the `ConnectionStrings:DefaultConnection` setting from `SE4.API/appsettings.json`. The committed development value uses SQL Server on the local machine with Windows integrated authentication.
 
-Review the connection string configuration for `SE4.API`. Use your own local SQL Server instance and keep machine-specific credentials out of committed source files.
+If your SQL Server instance or database credentials differ, configure the connection string for your local environment. You can override it without editing the committed file by setting the `ConnectionStrings__DefaultConnection` environment variable.
+
+### 3. Restore dependencies
+
+```cmd
+dotnet restore Databese.Desktop.slnx
+```
 
 ### 4. Apply database migrations
 
-Use the Entity Framework Core migrations appropriate to the solution and configured database.
+If the Entity Framework CLI is not installed, install a version matching the project's EF Core 10 packages:
+
+```cmd
+dotnet tool install --global dotnet-ef --version 10.0.15
+```
+
+Apply the migrations from the repository root:
+
+```cmd
+dotnet ef database update --project SE4.data/SE4.data.csproj --startup-project SE4.API/SE4.API.csproj
+```
 
 ### 5. Start the API
 
-Run the `SE4.API` project. The existing project documentation lists `https://localhost:7213/` as the configured API address; verify the actual launch settings in your local environment.
+Use the HTTPS launch profile. It configures the API at `https://localhost:7213`, which matches the desktop client's configured base address.
 
-### 6. Start the desktop client
+```cmd
+dotnet run --project SE4.API/SE4.API.csproj --launch-profile https
+```
 
-Run the `Databese.Desktop` project after the API and database are available.
+Keep this terminal running.
+
+### 6. Start the Windows Forms client
+
+Open a second terminal in the repository root:
+
+```cmd
+dotnet run --project Databese.Desktop/Databese.Desktop.csproj
+```
+
+The desktop client expects the API to be available at `https://localhost:7213/`.
 
 ## Security notes
 
+- The example connection string uses Windows integrated authentication; replace it with environment-specific configuration if your setup requires another authentication method.
 - Do not commit real database passwords, API secrets, or production connection strings.
-- Use a local development connection string or environment-specific configuration.
-- Keep password handling on the server side.
+- Keep password handling and password hashing on the server side.
+- The local HTTPS development certificate may need to be trusted on a new machine. Use `dotnet dev-certs https --trust` if required.
 
 ## Author
 
@@ -131,4 +156,4 @@ Run the `Databese.Desktop` project after the API and database are available.
 
 ---
 
-Educational project demonstrating a desktop client, REST API, and relational database working together.
+Educational project demonstrating a Windows desktop client, REST API, and relational database working together.
